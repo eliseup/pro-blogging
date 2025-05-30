@@ -32,9 +32,14 @@ After cloning the repository, follow these steps:
    cd pro-blogging
    ```
 
-2. **Initialize the containers**  
+2. **Start Development Containers**
+   - To start the development environment, use the following command:
    ```bash
    docker compose -f docker/docker-compose-dev.yml up
+   ```
+   - To run the containers in the background, add the -d flag:
+   ```bash
+   docker compose -f docker/docker-compose-dev.yml up -d
    ```
 
 In another terminal, access the containers:
@@ -42,10 +47,13 @@ In another terminal, access the containers:
 3. **Access the application container**  
    ```bash
    docker exec -it pro-blogging-app-1 bash
-   ```
+   ```   
+   - **Apply migrations**  
+     ```bash
+     python manage.py migrate
+     ```
 
-4. **Run Django commands inside the container**  
-   - Start the Django development server:  
+   - **Start the Django development server:**  
      ```bash
      ./runserver.sh
      ```  
@@ -53,7 +61,7 @@ In another terminal, access the containers:
      ```bash
      python manage.py runserver 0.0.0.0:8000
      ```  
-   - Run tests:  
+   - **Run tests:**
      ```bash
      python manage.py test
      ```
