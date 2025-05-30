@@ -18,7 +18,7 @@ A simple, extensible blogging platform built with Django. This project supports 
 ### 🔧 Setup
 1. **Clone the repository**  
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/eliseup/pro-blogging.git
    cd pro-blogging
    ```
 
