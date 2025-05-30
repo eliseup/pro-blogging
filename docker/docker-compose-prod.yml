@@ -1,0 +1,60 @@
+name: pro-blogging-prod
+
+services:
+  app:
+    image: pro-blogging-app-prod:latest
+    hostname: "app"
+    deploy:
+      replicas: 1
+      restart_policy: 
+        condition: on-failure
+      labels:
+        com.pro-blogging.project: "Pro Blogging"
+        com.pro-blogging.service: "app"
+    depends_on:
+      - postgresql
+    volumes:
+      - logs:/usr/src/logs
+    networks:
+      - net-bridge
+    ports:
+      - "8080:8000"
+    env_file:
+      - ${PWD}/src/app/.prod_env
+    environment:
+      # Terminfo
+      - COLUMNS=211
+      - LINES=52
+
+  postgresql:
+    build:
+      context: ./prod/postgresql
+    image: pro-blogging-postgresql-prod:latest
+    hostname: "postgresql"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        com.pro-blogging.project: "Pro Blogging"
+        com.pro-blogging.service: "postgresql"
+    volumes:
+      - postgresql_db:/var/lib/postgresql/data
+    networks:
+      - net-bridge
+    env_file:
+      - ${PWD}/src/app/.prod_env
+    environment:
+      # Terminfo
+      - COLUMNS=211
+      - LINES=52
+
+volumes:
+  logs:
+  postgresql_db:
+
+networks:
+  net-bridge:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"

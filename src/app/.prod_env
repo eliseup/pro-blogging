@@ -1,0 +1,16 @@
+# Use this file for production environment.
+
+# Database
+DB_NAME=blogging_db_prod
+DB_USER=blogging
+DB_PASSWORD=ss4+qz!gojc_qc
+DB_HOST=postgresql
+
+
+# For docker environments
+POSTGRES_USER=blogging
+POSTGRES_PASSWORD=ss4+qz!gojc_qc
+POSTGRES_DB=blogging_db_prod
+
+
+DJANGO_SETTINGS_MODULE=project.settings_prod

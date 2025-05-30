@@ -1,0 +1,16 @@
+# Use this file for development environment.
+
+# Database
+DB_NAME=blogging_db
+DB_USER=blogging
+DB_PASSWORD=blg1749.)
+DB_HOST=postgresql
+
+
+# For docker environments
+POSTGRES_USER=blogging
+POSTGRES_PASSWORD=blg1749.)
+POSTGRES_DB=blogging_db
+
+
+DJANGO_SETTINGS_MODULE=project.settings_dev
