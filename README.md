@@ -19,7 +19,6 @@ A simple, extensible blogging platform built with Django. This project supports 
 1. **Clone the repository**  
    ```bash
    git clone https://github.com/eliseup/pro-blogging.git
-   cd pro-blogging
    ```
 
 ---
@@ -59,7 +58,15 @@ In another terminal, access the containers:
      python manage.py test
      ```
 
-**The Django development server will listen on port 8000**
+**Port Mapping for Django Development Server**  
+
+- **Container Port**: `8000`  
+- **Host Port**: `8008`  
+
+The Django development server runs on port `8000` inside the Docker container. This port is exposed to the host machine on port `8008`  
+
+- Access the server **on the host machine** at `http://localhost:8008`
+
 
 ---
 
@@ -79,12 +86,12 @@ After cloning the repository, follow these steps:
 
 3. **Apply migrations**  
    ```bash
-   docker compose -f docker/docker-compose-prod.yml run --rm app python manage.py migrate
+   docker compose -f docker/docker-compose-prod.yml run --rm app bash -c "sleep 7 && python app/manage.py migrate"
    ```
 
 4. **Create a Django Admin user** (Optional)  
    ```bash
-   docker compose -f docker/docker-compose-prod.yml run --rm app python manage.py createsuperuser
+   docker compose -f docker/docker-compose-prod.yml run --rm app python app/manage.py createsuperuser
    ```
 
 5. **Start the Application**  
@@ -92,8 +99,16 @@ After cloning the repository, follow these steps:
    docker compose -f docker/docker-compose-prod.yml up
    ```
 
-**After starting, the application will listen on port 8080**
+**Port Mapping for Production Application**  
 
+- **Container Port**: `8000`  
+- **Host Port**: `8080`  
+
+The production application runs on port `8000` inside the Docker container. This port is exposed to the host machine on port `8080`  
+
+- Access the application **on the host machine** at `http://localhost:8080`
+
+---
 
 # API Endpoints Documentation
 *Production environment*
@@ -138,3 +153,11 @@ After cloning the repository, follow these steps:
     "content": "string"
 }
 ```
+
+---
+
+**Note on Environment Files:**  
+For simplicity and ease of assessment, `.dev_env` and `.prod_env` files have been included in the repository. While
+storing production environment variables in version control is generally not recommended for security reasons, this
+approach was chosen to streamline the setup process for evaluation purposes. In a real-world scenario, sensitive
+environment variables should be managed securely outside of version control.

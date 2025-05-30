@@ -20,7 +20,7 @@ services:
     networks:
       - net-bridge
     ports:
-      - "8000:8000"
+      - "8008:8000"
     env_file:
       - ${PWD}/src/app/.dev_env
     environment:
