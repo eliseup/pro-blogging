@@ -1,3 +1,4 @@
+from django.db.models import Count
 from rest_framework import generics
 
 from blog.models import BlogPost
@@ -6,7 +7,7 @@ from blog.serializers import BlogPostCreateSerializer, CommentSerializer, BlogPo
 
 
 class BlogPostListCreateView(generics.ListCreateAPIView):
-    queryset = BlogPost.objects.all()
+    queryset = BlogPost.objects.annotate(comment_count=Count('comment'))
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -16,7 +17,7 @@ class BlogPostListCreateView(generics.ListCreateAPIView):
 
 class BlogPostRetrieveView(generics.RetrieveAPIView):
     serializer_class = BlogPostRetrieveSerializer
-    queryset = BlogPost.objects.all()
+    queryset = BlogPost.objects.prefetch_related('comment_set')
 
 
 class CommentCreateView(generics.CreateAPIView):

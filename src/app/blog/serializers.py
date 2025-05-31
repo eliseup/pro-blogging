@@ -11,26 +11,11 @@ class BlogPostCreateSerializer(serializers.ModelSerializer):
 
 
 class BlogPostListSerializer(serializers.ModelSerializer):
-    comments_count = serializers.SerializerMethodField()
-
-    def get_comments_count(self, obj):
-        return obj.comment_set.count()
+    comment_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = BlogPost
-        fields = ['id', 'created_at', 'updated_at', 'title', 'comments_count']
-        read_only_fields = fields
-
-
-class BlogPostRetrieveSerializer(serializers.ModelSerializer):
-    comments = serializers.SerializerMethodField()
-
-    def get_comments(self, obj):
-        return CommentSerializer(obj.comment_set.all(), many=True).data
-
-    class Meta:
-        model = BlogPost
-        fields = ['id', 'created_at', 'updated_at', 'title', 'content', 'comments']
+        fields = ['id', 'created_at', 'updated_at', 'title', 'comment_count']
         read_only_fields = fields
 
 
@@ -39,3 +24,12 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = ['id', 'created_at', 'updated_at', 'content']
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+class BlogPostRetrieveSerializer(serializers.ModelSerializer):
+    comments = CommentSerializer(source='comment_set', many=True, read_only=True)
+
+    class Meta:
+        model = BlogPost
+        fields = ['id', 'created_at', 'updated_at', 'title', 'content', 'comments']
+        read_only_fields = fields
